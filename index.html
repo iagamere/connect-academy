@@ -1,60 +1,33 @@
 <!doctype html>
-<html lang="ar" dir="rtl">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Connect Academy</title>
-  <meta name="description" content="Interactive course: JSON, WebSocket, Node.js, Unity and how they work together in multiplayer games.">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <!-- Optional web fonts. If offline, the system fallbacks in the CSS are used. -->
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Tajawal:wght@400;500;700&display=swap">
-  <link rel="stylesheet" href="css/styles.css">
-</head>
-<body>
-  <a class="skip" href="#view" data-i18n="skip">Skip to content</a>
-  <div id="rp" class="rp" aria-hidden="true"><span></span></div>
-  <div class="shell">
-    <aside class="side" id="side" aria-label="Navigation">
-      <a class="brand" href="#/home">
-        <span class="brand-mk" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h16M16 4l4 4-4 4"/><path d="M20 16H4M8 12l-4 4 4 4"/></svg></span>
-        <span class="brand-t"><strong data-i18n="appName">Connect Academy</strong><small data-i18n="appTag"></small></span>
-      </a>
-      <nav id="nav" class="nav" aria-label="Lessons"></nav>
-      <div id="side-progress" class="side-progress"></div>
-    </aside>
-    <div class="backdrop" id="backdrop"></div>
-    <div class="main">
-      <header class="topbar">
-        <button type="button" id="menu" class="icon-btn menu-btn" data-i18n-aria="menu" aria-label="Menu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg></button>
-        <div class="search">
-          <svg class="s-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg>
-          <input id="q" type="search" autocomplete="off" data-i18n-ph="searchPh" data-i18n-aria="search" placeholder="Search" aria-label="Search">
-          <div id="sr" class="sr" hidden></div>
-        </div>
-        <select id="lang" class="sel" data-i18n-aria="lang" aria-label="Language">
-          <option value="ar">العربية</option>
-          <option value="en">English</option>
-          <option value="fr">Français</option>
-        </select>
-        <button type="button" id="theme" class="icon-btn" aria-label="Theme"></button>
-      </header>
-      <main id="view" class="view" tabindex="-1"></main>
-      <footer class="foot"><small data-i18n="footer"></small></footer>
-    </div>
-  </div>
-  <button type="button" id="top" class="to-top" data-i18n-aria="backTop" aria-label="Back to top"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"/></svg></button>
-
-  <script src="js/util.js"></script>
-  <script src="js/jsonparser.js"></script>
-  <script src="js/i18n.js"></script>
-  <script src="js/content-ar.js"></script>
-  <script src="js/content-en.js"></script>
-  <script src="js/code.js"></script>
-  <script src="js/exercises.js"></script>
-  <script src="js/labs.js"></script>
-  <script src="js/practice.js"></script>
-  <script src="js/workshop.js"></script>
-  <script src="js/app.js"></script>
-</body>
+<html lang="en" dir="ltr" data-theme="light">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#F6F4EF" />
+    <meta name="color-scheme" content="light dark" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <link rel="manifest" href="./manifest.webmanifest" />
+    <link rel="icon" href="./icons/icon-192.png" />
+    <title>Margins</title>
+    <script>
+      // Apply theme + language before first paint to avoid a flash.
+      (function () {
+        try {
+          var s = JSON.parse(localStorage.getItem('margins.settings') || '{}');
+          var lang = ['ar', 'fr', 'en'].indexOf(s.lang) >= 0 ? s.lang : (navigator.language || 'en').slice(0, 2);
+          if (['ar', 'fr', 'en'].indexOf(lang) < 0) lang = 'en';
+          var theme = s.theme || 'system';
+          if (theme === 'system') theme = window.matchMedia && matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+          var r = document.documentElement;
+          r.lang = lang;
+          r.dir = lang === 'ar' ? 'rtl' : 'ltr';
+          r.setAttribute('data-theme', theme);
+        } catch (e) {}
+      })();
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
 </html>

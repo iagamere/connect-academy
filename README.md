@@ -1,25 +1,54 @@
-# Connect Academy / أكاديمية الاتصال
+# MARGINS — A quieter way to read
 
-An interactive course: JSON, WebSocket, Node.js, Unity, and how they work together in a multiplayer game.
+A local-first EPUB & PDF reader for Android (also runs in any modern browser as an installable PWA).
+No account, no server: your books never leave the device.
 
-## Run it
-Double-click `index.html`. No build step, no installation, no server needed.
-(Fonts load from Google Fonts when online; otherwise system fonts are used.)
+**Stack:** React 18 · TypeScript · Vite · Capacitor 8 (Android) · epub.js · PDF.js · IndexedDB (`idb`) · Zustand · Lucide icons · bundled fonts (Inter, Literata, Source Serif 4, Noto Naskh Arabic, IBM Plex Sans Arabic — all SIL OFL).
 
-## The Workshop (real project)
-Needs Node.js (LTS) on your computer and internet for `npm install`.
-1. Open the Workshop lesson, download `server.js` and `package.json`.
-2. In their folder: `npm install` then `node server.js`.
-3. In the Workshop page press Connect (a real WebSocket). Open the page in two tabs to see two players.
+## Get the APK (no tools needed on your PC)
 
-## Structure
-- `index.html`, `css/styles.css`
-- `js/` : util (DOM helpers, highlighter), jsonparser (real validator), i18n (ar/en/fr UI),
-  content-ar / content-en (lessons), code (samples + server/Unity generators),
-  labs (diagrams & simulations), exercises + practice (auto-checked challenges), workshop, app (router, state, search)
+1. Create an empty GitHub repository and upload / push the contents of this folder to the `main` branch.
+2. Open the **Actions** tab → the **Build Android APK** workflow starts by itself (≈ 6–10 min the first time).
+3. When it is green, open **Releases → "Margins (latest build)"** and download `Margins.apk` (also available as a workflow artifact).
+4. On your phone: open the APK and allow "install from this source" when asked.
 
-## Honest limitations
-- Simulations are labelled "Simulation" and use no network. Real: JSON playground, exercise checkers, Workshop client.
-- French: interface fully translated; lesson text falls back to English (a notice is shown).
-- The Unity C# scripts were NOT run inside Unity. NativeWebSocket is a third-party library you install yourself.
-- Progress and preferences are stored in localStorage (per browser).
+The APK is a *debug-signed* build — fine for personal use. Each push rebuilds it.
+
+## Run in the browser (optional)
+
+```bash
+npm install
+npm run dev        # http://localhost:5173
+npm run build      # production build in dist/
+```
+
+## Build the APK locally (optional)
+
+Needs Node 22, JDK 21 and the Android SDK.
+
+```bash
+npm install && npm run build
+npx cap add android
+npx capacitor-assets generate --android --assetPath assets
+npx cap sync android
+python3 scripts/patch-android.py
+cd android && ./gradlew assembleDebug     # → app/build/outputs/apk/debug/app-debug.apk
+```
+
+## Features
+
+- Library: grid/list, covers (placeholders when missing), search, sort, filters (All / Reading / Completed / Recently added), progress, details screen, duplicate detection, multi-file import (drag & drop on desktop).
+- EPUB: original nested table of contents, paged or continuous scrolling, typography (font, size, line height, paragraph spacing, margins, width, alignment, theme), bookmarks, highlights in 4 colours, notes, in-book search, internal links, RTL/Arabic books, reading position restore.
+- PDF: original rendering, lazy page virtualisation, scroll or one-page-at-a-time mode, pinch / button zoom, fit width / fit page, page jump, thumbnails, original outline, text search (embedded text only — **no OCR**), link annotations, bookmarks with notes.
+- Interface in Arabic (full RTL), French and English; switch live in Settings.
+- Light, Dark and Sepia themes built from design tokens; reading theme can differ from the app theme.
+- Android back button closes panels first; desktop keyboard shortcuts: ←/→ page, ↑/↓/Space scroll or page, `T` contents, `N` notes, `A` appearance, `/` search, `B` bookmark, `F` full screen, `+`/`-` zoom (PDF), `H` hide toolbars.
+
+## Known limitations (by design / honest notes)
+
+- Books are stored in the app's private storage on the device. They are **not** synced or backed up; uninstalling the app or clearing its data deletes them.
+- Highlights and inline notes are EPUB-only. PDFs support bookmarks (with optional notes).
+- PDF search works only on PDFs with an embedded text layer. Scanned PDFs are not searchable (no OCR, by spec).
+- DRM-protected EPUBs are not supported.
+- Reading percentage in EPUB is an estimate until the background location index finishes (a few seconds for large books; it is then cached).
+- Highlights cannot be created on top of text that is already highlighted (epub.js overlay behaviour) — tap the existing highlight to edit it.
