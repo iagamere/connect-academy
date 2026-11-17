@@ -110,6 +110,8 @@ interface BlockProps {
 const PageBlock = memo(function PageBlock(p: BlockProps) {
   const { t, n } = useT();
   const { doc, num, registry, cache, heights } = p;
+  const textDir = useApp((s) => s.settings.textDir);
+  const dirOf = (rtl: boolean) => (textDir === 'auto' ? (rtl ? 'rtl' : 'ltr') : textDir);
   const root = useRef<HTMLElement>(null);
   const [near, setNear] = useState(false);
   const [data, setData] = useState<PageText | null>(() => cache.current.get(num) ?? null);
@@ -175,9 +177,9 @@ const PageBlock = memo(function PageBlock(p: BlockProps) {
           const cont = i === 0 && !!cache.current.get(num - 1)?.endsOpen && para.kind === 'p';
           const cls = (para.rtl ? 'ar' : '') + (cont ? ' cont' : '');
           return para.kind === 'h' ? (
-            <h3 key={i} dir="auto" className={cls}><Highlighted text={para.text} q={p.query} /></h3>
+            <h3 key={i} dir={dirOf(para.rtl)} className={cls}><Highlighted text={para.text} q={p.query} /></h3>
           ) : (
-            <p key={i} dir="auto" className={cls}><Highlighted text={para.text} q={p.query} /></p>
+            <p key={i} dir={dirOf(para.rtl)} className={cls}><Highlighted text={para.text} q={p.query} /></p>
           );
         })}
       {showOrig && (
@@ -399,6 +401,7 @@ export function ReflowView(props: ReflowViewProps) {
     ['--rf-gap' as string]: `${settings.paragraphSpacing}em`,
     ['--rf-family' as string]: family,
     ['--rf-align' as string]: settings.textAlign === 'justify' ? 'justify' : 'start',
+    ['--rf-weight' as string]: settings.textWeight === 'bold' ? 600 : 400,
     maxWidth: settings.maxWidth,
     paddingInline: `max(${settings.margin}px, var(--safe-l))`,
   } as React.CSSProperties;

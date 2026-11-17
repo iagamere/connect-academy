@@ -95,6 +95,21 @@ export function ReaderScreen({ id }: { id: string }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 
+  /* ---------- per-book PDF display style (original layout vs text reflow) ---------- */
+  const prefApplied = useRef(false);
+  useEffect(() => {
+    if (!book || book.format !== 'pdf') return;
+    if (!prefApplied.current) {
+      prefApplied.current = true;
+      if (book.pdfReflow !== undefined && book.pdfReflow !== settings.pdfReflow) {
+        setSettings({ pdfReflow: book.pdfReflow });
+        return;
+      }
+    }
+    if (book.pdfReflow !== settings.pdfReflow) updateBook(id, { pdfReflow: settings.pdfReflow });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [settings.pdfReflow, book?.id]);
+
   /* ---------- progress persistence ---------- */
   const persist = useMemo(
     () =>

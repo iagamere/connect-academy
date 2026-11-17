@@ -435,7 +435,7 @@ export function PdfViewControls({ api }: { api: ReaderApi | null }) {
           </>
         )}
       </div>
-      {s.pdfReflow ? <TypographyControls showMode={false} /> : <TypographyControls format="pdf" />}
+      {s.pdfReflow ? <TypographyControls showMode={false} reflow /> : <TypographyControls format="pdf" />}
     </div>
   );
 }

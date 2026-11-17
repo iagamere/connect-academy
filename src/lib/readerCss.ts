@@ -17,6 +17,8 @@ const STACKS: Record<Exclude<ReadFont, 'auto' | 'original'>, string> = {
   literata: "'Literata', 'Source Serif 4', Georgia, 'Times New Roman', serif",
   sourceSerif: "'Source Serif 4', 'Literata', Georgia, 'Times New Roman', serif",
   naskh: "'Noto Naskh Arabic', 'Literata', 'Traditional Arabic', serif",
+  amiri: "'Amiri', 'Noto Naskh Arabic', 'Traditional Arabic', serif",
+  cairo: "'Cairo', 'IBM Plex Sans Arabic', system-ui, sans-serif",
   plexArabic: "'IBM Plex Sans Arabic', 'Inter', system-ui, sans-serif",
   inter: "'Inter', 'IBM Plex Sans Arabic', system-ui, sans-serif",
 };
@@ -24,7 +26,7 @@ const STACKS: Record<Exclude<ReadFont, 'auto' | 'original'>, string> = {
 export function resolveFont(font: ReadFont, rtlBook: boolean): { stack: string | null; arabicScale: number } {
   if (font === 'original') return { stack: null, arabicScale: 1 };
   const key = font === 'auto' ? (rtlBook ? 'naskh' : 'literata') : font;
-  const arabicFont = key === 'naskh' || key === 'plexArabic';
+  const arabicFont = key === 'naskh' || key === 'plexArabic' || key === 'amiri' || key === 'cairo';
   return { stack: STACKS[key], arabicScale: arabicFont && rtlBook ? 1.1 : 1 };
 }
 
