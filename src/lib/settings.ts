@@ -24,6 +24,7 @@ export function defaultSettings(): Settings {
   return {
     lang: detectLang(),
     theme: 'system',
+    pdfReflow: false,
     libraryView: 'grid',
     librarySort: 'opened',
     ...DEFAULT_READING,

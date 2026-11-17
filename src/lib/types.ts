@@ -66,6 +66,8 @@ export interface Settings {
   maxWidth: number;
   textAlign: TextAlign;
   pdfAdaptTheme: boolean;
+  /** PDF: show extracted text re-flowed to the screen instead of the original pages */
+  pdfReflow: boolean;
   libraryView: 'grid' | 'list';
   librarySort: LibrarySort;
 }

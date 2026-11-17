@@ -186,6 +186,15 @@ export const en = {
   'pdf.adapt': 'Adapt page colours',
   'pdf.adaptHint': 'Softens white pages in dark or sepia themes. Images may look altered.',
 
+  'pdf.style': "Display style",
+  'pdf.styleOriginal': "Original layout",
+  'pdf.styleReflow': "Text reflow",
+  'pdf.reflowNote': "Text reflow extracts the text and re-lays it out for your screen, so you can read with larger type and no zooming. It is approximate: images, tables and complex layouts are not reproduced, and a few words may break. Use “Show original” on any page to see it as designed.",
+  'pdf.showOriginal': "Show original",
+  'pdf.hideOriginal': "Hide original",
+  'pdf.reflowEmptyPage': "This page has no extractable text (image or scan), so it is shown as designed.",
+  'pdf.toggleReflow': "Switch between original layout and text reflow",
+
   'err.unsupported': '“{name}” is not an EPUB or PDF file.',
   'err.invalid': '“{name}” is empty or not a valid file.',
   'err.corruptEpub': '“{name}” could not be read. The EPUB file looks damaged.',
